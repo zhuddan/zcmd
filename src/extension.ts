@@ -49,19 +49,19 @@ export default function Page() {
     </View>
   );
 }`;
+  
 
-        const configContent = `export default {
+        const configContent = `export default definePageConfig({
   navigationBarTitleText: '${pageName}',
-  navigationBarBackgroundColor: '#fff',
-  navigationBarTextStyle: 'black',
-} as const;`;
+  enablePullDownRefresh: false,
+})`;
 
         const scssContent = `.${pageName}-container {
   
 }`;
 
         try {
-            const pageDir = path.join(targetDir, pageName);
+            // const pageDir = path.join(targetDir, pageName);
 
             // 创建目录
             // if (!fs.existsSync(pageDir)) {
