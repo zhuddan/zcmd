@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
         // 创建文件内容
         const tsxContent = `import { View } from '@tarojs/components';
 import { useLoad } from '@tarojs/taro';
-import './index.scss';
+import './${pageName}.scss';
 
 export default function Page() {
   useLoad(() => {
