@@ -15,14 +15,14 @@
     "commands": [
       {
         "command": "zcmd.create-taro-page",
-        "title": "创建 Taro 页面"
+        "title": "Create new taro page"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "zcmd.create-taro-page",
-          "group": "navigation"
+          "group": "2_navigate"
         }
       ]
     }
@@ -45,15 +45,17 @@
     "tag": "bumpp"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^3.14.0",
+    "@types/ejs": "^3.1.5",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
     "@types/vscode": "^1.96.0",
-    "@typescript-eslint/eslint-plugin": "^8.17.0",
-    "@typescript-eslint/parser": "^8.17.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
     "bumpp": "^9.10.1",
-    "eslint": "^9.16.0",
+    "ejs": "^3.1.10",
+    "eslint": "^9.18.0",
+    "eslint-plugin-format": "^1.0.1",
     "ts-loader": "^9.5.1",
     "typescript": "^5.7.2",
     "webpack": "^5.95.0",
