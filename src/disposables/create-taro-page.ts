@@ -3,30 +3,6 @@ import path from 'node:path'
 import * as ejs from 'ejs'
 import * as vscode from 'vscode'
 
-function createTaroPage(targetDir: string, pageName: string) {
-  function templatePath(name: string) {
-    return path.resolve(
-      __dirname,
-      '../template/create-taro-page',
-      `${name}.ejs`,
-    )
-  }
-  fs.writeFileSync(
-    path.join(targetDir, `${pageName}.tsx`),
-    ejs.render(templatePath('page.tsx')),
-  )
-
-  fs.writeFileSync(
-    path.join(targetDir, `${pageName}.config.ts`),
-    ejs.render(templatePath('page.config.ts')),
-  )
-
-  fs.writeFileSync(
-    path.join(targetDir, `${pageName}.scss`),
-    ejs.render(templatePath('page.scss')),
-  )
-}
-
 export default function createTaroPageDisposable() {
   const disposable = vscode.commands.registerCommand('zcmd.create-taro-page', async (uri: vscode.Uri) => {
     // 获取目标目录
@@ -60,16 +36,9 @@ export default function createTaroPageDisposable() {
     }
 
     try {
-      // const pageDir = path.join(targetDir, pageName);
-      // 创建目录
-      // if (!fs.existsSync(pageDir)) {
-      //     fs.mkdirSync(pageDir, { recursive: true });
-      // }
-      // 创建文件
       createTaroPage(targetDir, pageName)
 
       vscode.window.showInformationMessage(`成功创建页面: ${pageName}`)
-
       // 打开创建的文件
       const tsxFile = vscode.Uri.file(path.join(targetDir, `${pageName}.tsx`))
       await vscode.workspace.openTextDocument(tsxFile)
@@ -80,4 +49,28 @@ export default function createTaroPageDisposable() {
     }
   })
   return disposable
+}
+
+function createTaroPage(targetDir: string, pageName: string) {
+  function templatePath(name: string) {
+    return path.resolve(
+      __dirname,
+      '../template/create-taro-page',
+      `${name}.ejs`,
+    )
+  }
+  fs.writeFileSync(
+    path.join(targetDir, `${pageName}.tsx`),
+    ejs.render(templatePath('page.tsx')),
+  )
+
+  fs.writeFileSync(
+    path.join(targetDir, `${pageName}.config.ts`),
+    ejs.render(templatePath('page.config.ts')),
+  )
+
+  fs.writeFileSync(
+    path.join(targetDir, `${pageName}.scss`),
+    ejs.render(templatePath('page.scss')),
+  )
 }

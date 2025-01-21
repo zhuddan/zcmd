@@ -1,21 +1,30 @@
 {
+  "publisher": "zhuddan",
   "name": "zcmd",
   "displayName": "zcmd",
-  "description": "My commonly used command line",
   "version": "0.0.3",
-  "engines": {
-    "vscode": "^1.96.0"
+  "description": "My commonly used command line",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhuddan/zcmd.git"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
   "main": "./dist/extension.js",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "activationEvents": [],
   "contributes": {
     "commands": [
       {
         "command": "zcmd.create-taro-page",
         "title": "Create new taro page"
+      },
+      {
+        "command": "zcmd.type-def",
+        "title": "Create a typedef in JSDOC"
       }
     ],
     "menus": {
@@ -24,13 +33,15 @@
           "command": "zcmd.create-taro-page",
           "group": "2_navigate"
         }
+      ],
+      "editor/context": [
+        {
+          "command": "zcmd.type-def",
+          "group": "navigation",
+          "when": "editorHasSelection"
+        }
       ]
     }
-  },
-  "publisher": "zhuddan",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zhuddan/zcmd.git"
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
