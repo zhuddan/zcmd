@@ -28,7 +28,7 @@ export default function createTaroPageDisposable() {
     // 获取页面名称
     const pageName = await vscode.window.showInputBox({
       prompt: '请输入页面名称',
-      placeHolder: 'home',
+      placeHolder: 'index',
     })
 
     if (!pageName) {
@@ -53,24 +53,30 @@ export default function createTaroPageDisposable() {
 
 function createTaroPage(targetDir: string, pageName: string) {
   function templatePath(name: string) {
-    return path.resolve(
-      __dirname,
-      '../template/create-taro-page',
-      `${name}.ejs`,
+    return fs.readFileSync(
+      path.resolve(
+        __dirname,
+        './template/create-taro-page',
+        `${name}.ejs`,
+      ),
+      'utf-8',
     )
   }
+
+
   fs.writeFileSync(
     path.join(targetDir, `${pageName}.tsx`),
-    ejs.render(templatePath('page.tsx')),
+    ejs.render(templatePath('page.tsx'), { pageName }),
   )
+
 
   fs.writeFileSync(
     path.join(targetDir, `${pageName}.config.ts`),
-    ejs.render(templatePath('page.config.ts')),
+    ejs.render(templatePath('page.config.ts'), { pageName }),
   )
 
   fs.writeFileSync(
     path.join(targetDir, `${pageName}.scss`),
-    ejs.render(templatePath('page.scss')),
+    ejs.render(templatePath('page.scss'), { pageName }),
   )
 }
