@@ -1,0 +1,36 @@
+/**
+ * 删除<%= businessName %>
+ * @param id <%= businessName %> ID
+ */
+export function remove<%= access %><%= model %>(id: number) {
+  return request.delete({
+    url: `${API_URL.<%= urlName %>}${id}`,
+  })
+}
+
+// ************************************************
+// ****************** hooks ***********************
+// ************************************************
+
+import { API_URL } from '@mini/service'
+import { useQuery } from '@tanstack/react-query'
+import { remove<%= access %><%= model %> } from '../api/<%= modelName %>'
+
+/**
+ * 删除<%= businessName %>的 Hook
+ */
+export function use<%= access %>Remove<%= model%>({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void
+  onError?: (error: Error) => void
+} = {}) {
+  return useMutation({
+    mutationFn: async (id: number) => {
+      return await remove<%= access %><%= model %>(id)
+    },
+    onSuccess,
+    onError,
+  })
+}

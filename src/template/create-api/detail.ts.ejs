@@ -1,0 +1,32 @@
+/**
+ * 查询<%= businessName %>详情
+ * @param id <%= businessName %> ID
+ * @returns <%= businessName %>详情
+ */
+export function get<%= access %><%= model %>Detail(id: number) {
+  return request.get<ResponseData<Api.<%= model %>>>({
+    url: `${API_URL.<%= urlName %>}${id}`,
+  })
+}
+
+// ************************************************
+// ****************** hooks ***********************
+// ************************************************
+
+import { API_URL } from '@mini/service'
+import { useQuery } from '@tanstack/react-query'
+import { get<%= access %><%= model %>Detail } from '../api/<%= modelName %>'
+
+/**
+ * 查询<%= businessName %>详情的 Hook
+ */
+export function use<%= access %><%= model %>Detail(id?: number) {
+  return useQuery({
+    queryKey: [API_URL.<%= urlName %>, id],
+    queryFn: async () => {
+      const res = await get<%= access %><%= model %>Detail(id!)
+      return res.data
+    },
+    enabled: !!id, 
+  })
+}

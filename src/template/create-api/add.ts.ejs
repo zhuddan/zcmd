@@ -1,0 +1,42 @@
+import { API_URL } from '@mini/service'
+import { request } from '@mini/shared'
+
+/**
+ * 新增<%= businessName %>
+ * @param data <%= businessName %>数据
+ * @returns 新增的<%= businessName %>
+ */
+export function add<%= access %><%= model%>(data: Partial<Api.<%= model%>>) {
+  return request.post<ResponseData<Api.<%= model%>>>({
+    url: API_URL.<%= urlName %>,
+    data,
+  })
+}
+
+
+// ************************************************
+// ****************** hooks ***********************
+// ************************************************
+
+
+import { useMutation } from '@tanstack/react-query'
+import { add<%= access %><%= model%> } from '../api/<%= modelName %>'
+
+/**
+ * 新增<%= businessName %>的 Hook
+ */
+export function use<%= access %>Add<%= model%>({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void
+  onError?: (error: Error) => void
+} = {}) {
+  return useMutation({
+    mutationFn: async (data: Partial<Api.<%= model%>>) => {
+      return await add<%= access %><%= model%>(data)
+    },
+    onSuccess,
+    onError,
+  })
+}

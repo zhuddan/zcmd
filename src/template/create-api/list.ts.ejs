@@ -1,0 +1,57 @@
+import { request } from '@mini/shared'
+import { API_URL } from '../constants'
+
+/**
+ * <%= businessName %>列表
+ * @param params
+ */
+export function get<%= access %><%= model %>List(params?: ListParams<Api.<%= model %>>) {
+  return request.get<ResponseList<Api.<%= model %>>>({
+    url: API_URL.<%= urlName %>,
+    params: {
+      ...params,
+    },
+  })
+}
+
+
+// ************************************************
+// ****************** hooks ***********************
+// ************************************************
+
+import type { InfiniteList } from '@mini/service'
+import type { ListPageResult } from '@mini/shared'
+import type { QueryKey } from '@tanstack/react-query'
+import { API_URL, PAGE_SIZE } from '@mini/service'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { get<%= access %><%= model %>List } from '../api/<%= modelName %>'
+import { getNextPageParam } from '../utils/calculateNextPage'
+
+/**
+ * <%= businessName %> 无限列表
+ */
+export function use<%= access %><%= model %>List(
+  params: Partial<Api.<%= model %>> = {},
+  enabled = true,
+) {
+  return useInfiniteQuery<
+    ListPageResult<Api.<%= model %>>,
+    Error,
+    InfiniteList<Api.<%= model %>>,
+    QueryKey,
+    number
+  >({
+    queryKey: [API_URL.<%= urlName %>, JSON.stringify(params)],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam: pageNum = 1 }) => {
+      const response = await get<%= access %><%= model %>List({
+        pageSize: PAGE_SIZE,
+        pageNum,
+        ...params,
+      })
+      return response
+    },
+    getNextPageParam,
+    enabled,
+  })
+}
