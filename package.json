@@ -2,7 +2,7 @@
   "publisher": "zhuddan",
   "name": "zcmd",
   "displayName": "zcmd",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "My commonly used command line",
   "repository": {
     "type": "git",
