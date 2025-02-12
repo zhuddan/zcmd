@@ -67,48 +67,49 @@ export default function createApiDisposable() {
       access,
     }
 
+    const actionMappings: Record<Action, string> = {
+      [Action.ADD]: 'add.ts',
+      [Action.EDIT]: 'edit.ts',
+      [Action.DEL]: 'del.ts',
+      [Action.DETAIL]: 'detail.ts',
+      [Action.LIST]: 'list.ts',
+    }
+
+    const output = await vscode.window.showQuickPick(
+      ['constants.ts', 'model.d.ts', actionMappings[action]].map(name => ({
+        label: name,
+        description: '',
+        picked: name !== 'model.d.ts',
+      })),
+      {
+        placeHolder: 'select output',
+        canPickMany: true, // 设置为 true 允许多选
+      },
+    )
+    if (!output?.length)
+      return
+    const _output = output?.map(e => e.label)
+
     try {
-      // 获取临时文件路径
-      await createTempFile(
-        'constants.ts',
-        ejs.render(templatePath('constants.ts'), data),
-      )
+      if (_output.includes('constants.ts')) {
+        await createTempFile(
+          'constants.ts',
+          ejs.render(templatePath('constants.ts'), data),
+        )
+      }
+      if (_output.includes('model.d.ts')) {
+        await createTempFile(
+          'model.d.ts',
+          ejs.render(templatePath('model.d.ts'), data),
+        )
+      }
+      if (_output.includes(actionMappings[action])) {
+        await createTempFile(
+          actionMappings[action],
+          ejs.render(templatePath(actionMappings[action]), data),
+        )
+      }
 
-      await createTempFile(
-        'model.d.ts',
-        ejs.render(templatePath('model.d.ts'), data),
-      )
-
-      if (action === Action.LIST) {
-        await createTempFile(
-          'list.ts',
-          ejs.render(templatePath('list.ts'), data),
-        )
-      }
-      else if (action === Action.DETAIL) {
-        await createTempFile(
-          'detail.ts',
-          ejs.render(templatePath('detail.ts'), data),
-        )
-      }
-      else if (action === Action.ADD) {
-        await createTempFile(
-          'add.ts',
-          ejs.render(templatePath('add.ts'), data),
-        )
-      }
-      else if (action === Action.EDIT) {
-        await createTempFile(
-          'edit.ts',
-          ejs.render(templatePath('edit.ts'), data),
-        )
-      }
-      else if (action === Action.DEL) {
-        await createTempFile(
-          'del.ts',
-          ejs.render(templatePath('del.ts'), data),
-        )
-      }
       vscode.window.showInformationMessage(`success`)
     }
     catch (error) {
