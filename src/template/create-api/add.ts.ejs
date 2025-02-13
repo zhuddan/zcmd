@@ -4,10 +4,10 @@ import { request } from '@mini/shared'
 /**
  * 新增<%= businessName %>
  * @param data <%= businessName %>数据
- * @returns 新增的<%= businessName %>
+ * @returns 新增<%= businessName %>
  */
 export function add<%= access %><%= model%>(data: Partial<Api.<%= model%>>) {
-  return request.post<ResponseData<Api.<%= model%>>>({
+  return request.post({
     url: API_URL.<%= urlName %>,
     data,
   })

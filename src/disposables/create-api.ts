@@ -58,6 +58,14 @@ export default function createApiDisposable() {
       value: modelName,
     })
 
+    const businessNameDescMap: Record<Action, string> = {
+      [Action.ADD]: '新增/修改/删除',
+      [Action.EDIT]: '新增/修改/删除',
+      [Action.DEL]: '新增/修改/删除',
+      [Action.DETAIL]: '列表',
+      [Action.LIST]: '详情',
+    }
+
     const data = {
       urlName,
       model,
@@ -65,9 +73,10 @@ export default function createApiDisposable() {
       urlPath,
       modelName,
       access,
+      businessNameDesc: businessNameDescMap[action],
     }
 
-    const actionMappings: Record<Action, string> = {
+    const actionFileMap: Record<Action, string> = {
       [Action.ADD]: 'add.ts',
       [Action.EDIT]: 'edit.ts',
       [Action.DEL]: 'del.ts',
@@ -76,7 +85,7 @@ export default function createApiDisposable() {
     }
 
     const output = await vscode.window.showQuickPick(
-      ['constants.ts', 'model.d.ts', actionMappings[action]].map(name => ({
+      ['constants.ts', 'model.d.ts', actionFileMap[action]].map(name => ({
         label: name,
         description: '',
         picked: name !== 'model.d.ts',
@@ -103,10 +112,10 @@ export default function createApiDisposable() {
           ejs.render(templatePath('model.d.ts'), data),
         )
       }
-      if (_output.includes(actionMappings[action])) {
+      if (_output.includes(actionFileMap[action])) {
         await createTempFile(
-          actionMappings[action],
-          ejs.render(templatePath(actionMappings[action]), data),
+          actionFileMap[action],
+          ejs.render(templatePath(actionFileMap[action]), data),
         )
       }
 
