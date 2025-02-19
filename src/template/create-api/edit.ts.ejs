@@ -1,3 +1,5 @@
+// api/<%= modelName %>.ts
+
 import { API_URL } from '@mini/service'
 import { request } from '@mini/shared'
 
@@ -13,11 +15,7 @@ export function update<%= public_sign %><%= model%>(data: Partial<Api.<%= model%
   })
 }
 
-
-// ************************************************
-// ****************** hooks ***********************
-// ************************************************
-
+// hooks/<%= modelName %>.ts
 
 import { useMutation } from '@tanstack/react-query'
 import { update<%= public_sign %><%= model%> } from '../api/<%= modelName %>'

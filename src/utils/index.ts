@@ -13,12 +13,10 @@ export async function createTempFile(
     ext,
     `.${Date.now()}${ext}`,
   ))
-
   fs.writeFileSync(
     tempFilePath,
     data,
   )
-
   // 打开临时文件
   const tempDocument = await vscode.workspace.openTextDocument(tempFilePath)
 

@@ -1,3 +1,8 @@
+// api/<%= modelName %>.ts
+
+import { API_URL } from '@mini/service'
+import { request } from '@mini/shared'
+
 /**
  * 查询<%= businessName %>详情
  * @param id <%= businessName %> ID
@@ -9,9 +14,7 @@ export function get<%= public_sign %><%= model %>Detail(id: number) {
   })
 }
 
-// ************************************************
-// ****************** hooks ***********************
-// ************************************************
+// hooks/<%= modelName %>.ts
 
 import { API_URL } from '@mini/service'
 import { useQuery } from '@tanstack/react-query'

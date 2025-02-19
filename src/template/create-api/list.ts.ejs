@@ -1,3 +1,5 @@
+// api/<%= modelName %>.ts
+
 import { request } from '@mini/shared'
 import { API_URL } from '../constants'
 
@@ -15,9 +17,7 @@ export function get<%= public_sign %><%= model %>List(params?: ListParams<Api.<%
 }
 
 
-// ************************************************
-// ****************** hooks ***********************
-// ************************************************
+// hooks/<%= modelName %>.ts
 
 import type { InfiniteList } from '@mini/service'
 import type { ListPageResult } from '@mini/shared'

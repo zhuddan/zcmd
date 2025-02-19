@@ -22,13 +22,15 @@ function templatePath(name: string) {
     'utf-8',
   )
 }
-
+/**
+ * 创建 api (接口请求/hooks/api_url/...)
+ */
 export default function createApiDisposable() {
   const disposable = vscode.commands.registerCommand('zcmd.create-api', async (_uri: vscode.Uri) => {
     // 获取页面名称
     const urlPath = await vscode.window.showInputBox({
       prompt: '请输入url名称',
-      value: '/business/user',
+      value: '/business/user/list',
     })
     if (!urlPath) {
       return
@@ -117,7 +119,6 @@ export default function createApiDisposable() {
           ejs.render(templatePath(actionFileMap[action]), data),
         )
       }
-
       vscode.window.showInformationMessage(`success`)
     }
     catch (error) {

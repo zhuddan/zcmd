@@ -1,3 +1,8 @@
+// api/<%= modelName %>.ts
+
+import { API_URL } from '@mini/service'
+import { request } from '@mini/shared'
+
 /**
  * 删除<%= businessName %>
  * @param id <%= businessName %> ID
@@ -8,9 +13,7 @@ export function remove<%= public_sign %><%= model %>(id: number) {
   })
 }
 
-// ************************************************
-// ****************** hooks ***********************
-// ************************************************
+// hooks/<%= modelName %>.ts
 
 import { API_URL } from '@mini/service'
 import { useQuery } from '@tanstack/react-query'
