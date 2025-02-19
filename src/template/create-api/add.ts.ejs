@@ -32,8 +32,8 @@ export function use<%= public_sign %>Add<%= model%>({
   onError?: (error: Error) => void
 } = {}) {
   return useMutation({
-    mutationFn: async (data: Partial<Api.<%= model%>>) => {
-      return await add<%= public_sign %><%= model%>(data)
+    mutationFn: (data: Partial<Api.<%= model%>>) => {
+      return add<%= public_sign %><%= model%>(data)
     },
     onSuccess,
     onError,

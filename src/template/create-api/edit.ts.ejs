@@ -31,8 +31,8 @@ export function use<%= public_sign %>Update<%= model%>({
   onError?: (error: Error) => void
 } = {}) {
   return useMutation({
-    mutationFn: async (data: Partial<Api.<%= model%>>) => {
-      return await update<%= public_sign %><%= model%>(data)
+    mutationFn: (data: Partial<Api.<%= model%>>) => {
+      return update<%= public_sign %><%= model%>(data)
     },
     onSuccess,
     onError,

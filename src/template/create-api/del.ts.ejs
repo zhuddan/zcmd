@@ -30,8 +30,8 @@ export function use<%= public_sign %>Remove<%= model%>({
   onError?: (error: Error) => void
 } = {}) {
   return useMutation({
-    mutationFn: async (id: number) => {
-      return await remove<%= public_sign %><%= model %>(id)
+    mutationFn: (id: number) => {
+      return remove<%= public_sign %><%= model %>(id)
     },
     onSuccess,
     onError,
