@@ -3,9 +3,9 @@
  * @param id <%= businessName %> ID
  * @returns <%= businessName %>详情
  */
-export function get<%= access %><%= model %>Detail(id: number) {
+export function get<%= public_sign %><%= model %>Detail(id: number) {
   return request.get<ResponseData<Api.<%= model %>>>({
-    url: `${API_URL.<%= urlName %>}${id}`,
+    url: `${API_URL.<%= url_constant %>}${id}`,
   })
 }
 
@@ -15,16 +15,16 @@ export function get<%= access %><%= model %>Detail(id: number) {
 
 import { API_URL } from '@mini/service'
 import { useQuery } from '@tanstack/react-query'
-import { get<%= access %><%= model %>Detail } from '../api/<%= modelName %>'
+import { get<%= public_sign %><%= model %>Detail } from '../api/<%= modelName %>'
 
 /**
  * 查询<%= businessName %>详情的 Hook
  */
-export function use<%= access %><%= model %>Detail(id?: number) {
+export function use<%= public_sign %><%= model %>Detail(id?: number) {
   return useQuery({
-    queryKey: [API_URL.<%= urlName %>, id],
+    queryKey: [API_URL.<%= url_constant %>, id],
     queryFn: async () => {
-      const res = await get<%= access %><%= model %>Detail(id!)
+      const res = await get<%= public_sign %><%= model %>Detail(id!)
       return res.data
     },
     enabled: !!id, 

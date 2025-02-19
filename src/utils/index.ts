@@ -38,3 +38,28 @@ export async function createTempFile(
     }
   })
 }
+/**
+ * 将字符串转换为大驼峰（PascalCase）格式
+ * @param str 输入的字符串
+ * @returns 转换后的大驼峰格式字符串
+ */
+export function toPascalCase(str: string): string {
+  // 先将字符串按照 - 或者空格分割
+  return str
+  // 处理 '-' 和空格的分割
+    .split(/[-\s]/)
+  // 处理已经是驼峰的情况（如 'loginLog'）
+    .join(' ')
+  // 按大写字母分割（处理驼峰情况）
+    .split(/(?=[A-Z])/)
+    .join(' ')
+  // 处理每个单词
+    .split(' ')
+    .map((word) => {
+      if (!word)
+        return ''
+      // 将单词的首字母大写，其余小写
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    })
+    .join('')
+}

@@ -6,9 +6,9 @@ import { request } from '@mini/shared'
  * @param data <%= businessName %>数据
  * @returns 新增<%= businessName %>
  */
-export function add<%= access %><%= model%>(data: Partial<Api.<%= model%>>) {
+export function add<%= public_sign %><%= model%>(data: Partial<Api.<%= model%>>) {
   return request.post({
-    url: API_URL.<%= urlName %>,
+    url: API_URL.<%= url_constant %>,
     data,
   })
 }
@@ -20,12 +20,12 @@ export function add<%= access %><%= model%>(data: Partial<Api.<%= model%>>) {
 
 
 import { useMutation } from '@tanstack/react-query'
-import { add<%= access %><%= model%> } from '../api/<%= modelName %>'
+import { add<%= public_sign %><%= model%> } from '../api/<%= modelName %>'
 
 /**
  * 新增<%= businessName %>的 Hook
  */
-export function use<%= access %>Add<%= model%>({
+export function use<%= public_sign %>Add<%= model%>({
   onSuccess,
   onError,
 }: {
@@ -34,7 +34,7 @@ export function use<%= access %>Add<%= model%>({
 } = {}) {
   return useMutation({
     mutationFn: async (data: Partial<Api.<%= model%>>) => {
-      return await add<%= access %><%= model%>(data)
+      return await add<%= public_sign %><%= model%>(data)
     },
     onSuccess,
     onError,

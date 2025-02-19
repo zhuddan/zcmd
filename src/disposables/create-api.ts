@@ -1,9 +1,8 @@
 import fs from 'node:fs'
-import os from 'node:os'
 import path from 'node:path'
 import * as ejs from 'ejs'
 import * as vscode from 'vscode'
-import { createTempFile } from '../utils'
+import { createTempFile, toPascalCase } from '../utils'
 
 enum Action {
   LIST = '列表',
@@ -47,11 +46,11 @@ export default function createApiDisposable() {
       return
     }
     const {
-      urlName,
+      url_constant,
       model,
       modelName,
-      access,
-    } = getUrl(urlPath, action)
+      public_sign,
+    } = generateApiUrl(urlPath, action)
 
     const businessName = await vscode.window.showInputBox({
       prompt: '请输入业务名称',
@@ -67,12 +66,12 @@ export default function createApiDisposable() {
     }
 
     const data = {
-      urlName,
+      url_constant,
       model,
       businessName,
       urlPath,
       modelName,
-      access,
+      public_sign,
       businessNameDesc: businessNameDescMap[action],
     }
 
@@ -128,41 +127,25 @@ export default function createApiDisposable() {
   return disposable
 }
 
-function getUrl(input: string, action: Action) {
-  let urlName = input.slice(1)
+function generateApiUrl(input: string, action: Action) {
+  let url_constant = input.slice(1)
   const _names = input.split('/')
-
-  const access = _names.includes('api') ? '' : 'Access'
-
+  const public_sign = _names.includes('api') ? 'Public' : ''
   const names = _names.filter(e => e !== 'api' && e !== 'business' && e !== '')
-
   const modelName = names[0]
   const model = toPascalCase(modelName)
-
   if (action === Action.DETAIL) {
     names.push('detail')
   }
-  urlName = [access, ...names]
+  url_constant = [public_sign, ...names]
     .filter(e => !!e)
     .map(e => e.toLocaleUpperCase())
     .join('_')
 
   return {
-    urlName,
+    url_constant,
     model,
     modelName,
-    access,
+    public_sign,
   }
-}
-
-/**
- * 将字符串转换为大驼峰（PascalCase）格式
- * @param str 输入的字符串
- * @returns 转换后的大驼峰格式字符串
- */
-function toPascalCase(str: string): string {
-  return str
-    .replace(/^\w|[A-Z]|\b\w|\s+/g, (match, index) =>
-      index === 0 ? match.toUpperCase() : match.toLowerCase())
-    .replace(/\s+/g, '') // 删除空格
 }

@@ -63,12 +63,10 @@ function createTaroPage(targetDir: string, pageName: string) {
     )
   }
 
-
   fs.writeFileSync(
     path.join(targetDir, `${pageName}.tsx`),
     ejs.render(templatePath('page.tsx'), { pageName }),
   )
-
 
   fs.writeFileSync(
     path.join(targetDir, `${pageName}.config.ts`),
