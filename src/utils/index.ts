@@ -61,3 +61,25 @@ export function toPascalCase(str: string): string {
     })
     .join('')
 }
+
+export function openFileAndSelectWord(filePath: string, word: string) {
+  // 打开文件
+  vscode.workspace.openTextDocument(filePath).then((document) => {
+    vscode.window.showTextDocument(document).then((editor) => {
+      // 查找单词的位置
+      const text = document.getText()
+      const wordIndex = text.indexOf(word)
+
+      if (wordIndex !== -1) {
+        // 创建光标位置并选中该单词
+        const startPosition = document.positionAt(wordIndex)
+        const endPosition = document.positionAt(wordIndex + word.length)
+        const selection = new vscode.Selection(startPosition, endPosition)
+
+        // 设置编辑器的选区
+        editor.selection = selection
+        editor.revealRange(selection) // 可选：让选中的区域可见
+      }
+    })
+  })
+}

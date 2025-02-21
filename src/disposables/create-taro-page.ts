@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import * as ejs from 'ejs'
 import * as vscode from 'vscode'
+import { openFileAndSelectWord } from '../utils'
 
 export default function createTaroPageDisposable() {
   const disposable = vscode.commands.registerCommand('zcmd.create-taro-page', async (uri: vscode.Uri) => {
@@ -76,5 +77,10 @@ function createTaroPage(targetDir: string, pageName: string) {
   fs.writeFileSync(
     path.join(targetDir, `${pageName}.scss`),
     ejs.render(templatePath('page.scss'), { pageName }),
+  )
+
+  openFileAndSelectWord(
+    path.join(targetDir, `${pageName}.config.ts`),
+    `'${pageName}'`,
   )
 }
