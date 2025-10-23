@@ -1,0 +1,95 @@
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { FindOneOptions, Like, MoreThan, Repository } from 'typeorm'
+import { CursorPageResponseDto } from '@/libs/common/src/dto/cursor-page-response.dto'
+import { CursorPageDto } from '@/libs/common/src/dto/cursor-page.dto.ts'
+import { PageResponseDto } from '@/libs/common/src/dto/page-response.dto'
+import { buildTree } from '@/libs/common/src/utils/buildTree'
+import { Create<%= CapitalizeModuleName %>Dto } from './dto/create-<%= moduleName %>.dto'
+import { <%= CapitalizeModuleName %>PageDto } from './dto/<%= moduleName %>-page.dto'
+import { Update<%= CapitalizeModuleName %>Dto } from './dto/update-<%= moduleName %>.dto'
+import { <%= CapitalizeModuleName %>Entity } from './entities/<%= moduleName %>.entity'
+
+@Injectable()
+export class <%= CapitalizeModuleName %>Service {
+  constructor(
+    @InjectRepository(<%= CapitalizeModuleName %>Entity)
+    private readonly <%= moduleName %>Repo: Repository<<%= CapitalizeModuleName %>Entity>,
+  ) {}
+
+  /**
+   * 创建<%= moduleNameCN %>
+   */
+  create(create<%= CapitalizeModuleName %>Dto: Create<%= CapitalizeModuleName %>Dto) {
+    const <%= moduleName %> = this.<%= moduleName %>Repo.create(create<%= CapitalizeModuleName %>Dto)
+    return this.<%= moduleName %>Repo.save(<%= moduleName %>)
+  }
+
+  /**
+   * 所有<%= moduleNameCN %>列表
+   */
+  async findAll() {
+    return await this.<%= moduleName %>Repo.find()
+  }
+
+  /**
+   * 分页查询<%= moduleNameCN %>
+   */
+  async paginate(dto: <%= CapitalizeModuleName %>PageDto) {
+    const { page = 1, pageSize = 5, sortBy = 'id', order = 'ASC', name } = dto
+    const where: FindOneOptions<<%= CapitalizeModuleName %>Entity>['where'] = {}
+    if (name) {
+      where.name = Like(`%${name}%`) // 模糊搜索
+    }
+    const [list, total] = await this.<%= moduleName %>Repo.findAndCount({
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      order: sortBy ? { [sortBy]: order.toUpperCase() as 'ASC' | 'DESC' } : undefined,
+    })
+    return new PageResponseDto(list, total, page, pageSize)
+  }
+
+  /**
+   * 树形结构<%= moduleNameCN %>
+   */
+  async findTree() {
+    const all = await this.<%= moduleName %>Repo.find({ order: { sort: 'ASC' } })
+    return buildTree(all)
+  }
+
+  /**
+   * 游标分页查询<%= moduleNameCN %>
+   */
+  async cursorPaginate(dto: CursorPageDto) {
+    const { lastId, limit = 10 } = dto
+    const where = lastId ? { id: MoreThan(lastId) } : {}
+    const list = await this.<%= moduleName %>Repo.find({
+      where,
+      take: limit,
+      order: { id: 'ASC' },
+    })
+    return new CursorPageResponseDto(list)
+  }
+
+  /**
+   * 根据<%= moduleNameCN %>ID查询<%= moduleNameCN %>
+   */
+  async findOne(id: number) {
+    return await this.<%= moduleName %>Repo.findOneBy({ id })
+  }
+
+  /**
+   * 更新<%= moduleNameCN %>信息
+   */
+  update(id: number, update<%= CapitalizeModuleName %>Dto: Update<%= CapitalizeModuleName %>Dto) {
+    return this.<%= moduleName %>Repo.update(id.toString(), update<%= CapitalizeModuleName %>Dto)
+  }
+
+  /**
+   * 删除<%= moduleNameCN %>
+   */
+  async remove(id: number) {
+    await this.<%= moduleName %>Repo.delete(id)
+  }
+}

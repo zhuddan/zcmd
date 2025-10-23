@@ -1,0 +1,92 @@
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query } from '@nestjs/common'
+import { Permission } from '@/libs/common/src/auth/decorators/permission.decorator'
+import { CursorPageDto } from '@/libs/common/src/dto/cursor-page.dto.ts'
+import { CommonResult } from '@/libs/common/src/utils/common-result'
+import { Create<%= CapitalizeModuleName %>Dto } from './dto/create-<%= moduleName %>.dto'
+import { <%= CapitalizeModuleName %>PageDto } from './dto/<%= moduleName %>-page.dto'
+import { Update<%= CapitalizeModuleName %>Dto } from './dto/update-<%= moduleName %>.dto'
+import { <%= CapitalizeModuleName %>Service } from './<%= moduleName %>.service'
+
+/**
+ * <%= moduleNameCN %>管理
+ */
+@Controller('<%= moduleName %>')
+export class <%= CapitalizeModuleName %>Controller {
+  constructor(private readonly <%= moduleName %>Service: <%= CapitalizeModuleName %>Service) {}
+
+  /**
+   * 创建<%= moduleNameCN %>
+   */
+  @Permission('<%= moduleName %>.create')
+  @Post('create')
+  async create(@Body() create<%= CapitalizeModuleName %>Dto: Create<%= CapitalizeModuleName %>Dto) {
+    return CommonResult.success(await this.<%= moduleName %>Service.create(create<%= CapitalizeModuleName %>Dto))
+  }
+
+  /**
+   * 获取所有<%= moduleNameCN %>
+   */
+  @Permission('<%= moduleName %>.all')
+  @Get('all')
+  async findAll() {
+    return CommonResult.success(await this.<%= moduleName %>Service.findAll())
+  }
+
+  /**
+   * <%= moduleNameCN %>分页列表
+   */
+  @Permission('<%= moduleName %>.list')
+  @Get('list')
+  async page(@Query() <%= moduleName %>PageDto: <%= CapitalizeModuleName %>PageDto) {
+    return CommonResult.success(await this.<%= moduleName %>Service.paginate(<%= moduleName %>PageDto))
+  }
+
+
+    /**
+   * 权限树形结构
+   */
+  @Permission('<%= moduleName %>.tree')
+  @Get('tree')
+  async findTree() {
+    return CommonResult.success(await this.<%= moduleName %>Service.findTree())
+  }
+
+
+  /**
+   * <%= moduleNameCN %>游标分页
+   */
+  @Permission('<%= moduleName %>.cursor')
+  @Get('cursor')
+  async cursor(@Query() cursorPageDto: CursorPageDto) {
+    return CommonResult.success(await this.<%= moduleName %>Service.cursorPaginate(cursorPageDto))
+  }
+
+  /**
+   * <%= moduleNameCN %>详情
+   */
+  @Permission('<%= moduleName %>.detail')
+  @Get('detail/:id')
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return CommonResult.success(await this.<%= moduleName %>Service.findOne(id))
+  }
+
+  /**
+   * 更新<%= moduleNameCN %>
+   */
+  @Permission('<%= moduleName %>.update')
+  @Patch('update/:id')
+  async update(@Param('id', ParseIntPipe) id: number, @Body() update<%= CapitalizeModuleName %>Dto: Update<%= CapitalizeModuleName %>Dto) {
+    await this.<%= moduleName %>Service.update(id, update<%= CapitalizeModuleName %>Dto)
+    return CommonResult.success()
+  }
+
+  /**
+   * 删除<%= moduleNameCN %>
+   */
+  @Permission('<%= moduleName %>.delete')
+  @Delete('remove/:id')
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    await this.<%= moduleName %>Service.remove(+id)
+    return CommonResult.success()
+  }
+}

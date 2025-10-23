@@ -1,0 +1,11 @@
+import { IsOptional, IsString } from 'class-validator'
+import { PageDto } from '@/libs/common/src/dto/page.dto'
+
+/**
+ * <%= moduleNameCN %>分页DTO
+ */
+export class <%= CapitalizeModuleName %>PageDto extends PageDto {
+  @IsOptional()
+  @IsString()
+  name?: string // 名称模糊搜索
+}
