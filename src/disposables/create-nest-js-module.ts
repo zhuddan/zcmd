@@ -57,9 +57,33 @@ export default function createNestJsModuleDisposable() {
       placeHolder: '例如: 商品, 用户',
     })
 
+    const baseUrl = await vscode.window.showInputBox({
+      prompt: '基础url前缀',
+      value: 'system',
+      placeHolder: 'Controller 和 Permission 前缀会自动加上',
+    })
+
+    const controllerPath = [baseUrl, moduleName].filter(Boolean).join('/')
+
+    const permissionPrefix = controllerPath.replace(/\//g, '.')
+
     const data = {
+      /**
+       * 模块名称(英文)
+       */
       moduleName,
+      /**
+       * 业务名称(中文)
+       */
       moduleNameCN,
+      /**
+       * 控制器路径(前缀)
+       */
+      controllerPath,
+      /**
+       * 权限前缀
+       */
+      permissionPrefix,
       /**
        * 小驼峰
        */

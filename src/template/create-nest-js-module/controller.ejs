@@ -10,14 +10,14 @@ import { <%= upperCamelCase %>Service } from './<%= moduleName %>.service'
 /**
  * <%= moduleNameCN %>管理
  */
-@Controller('<%= moduleName %>')
+@Controller('<%= controllerPath %>')
 export class <%= upperCamelCase %>Controller {
   constructor(private readonly <%= lowerCamelCase %>Service: <%= upperCamelCase %>Service) {}
 
   /**
    * 创建<%= moduleNameCN %>
    */
-  @Permission('<%= moduleName %>.create')
+  @Permission('<%= permissionPrefix %>.create')
   @Post('create')
   async create(@Body() create<%= upperCamelCase %>Dto: Create<%= upperCamelCase %>Dto) {
     return CommonResult.success(await this.<%= lowerCamelCase %>Service.create(create<%= upperCamelCase %>Dto))
@@ -26,7 +26,7 @@ export class <%= upperCamelCase %>Controller {
   /**
    * 获取所有<%= moduleNameCN %>
    */
-  @Permission('<%= moduleName %>.all')
+  @Permission('<%= permissionPrefix %>.all')
   @Get('all')
   async findAll() {
     return CommonResult.success(await this.<%= lowerCamelCase %>Service.findAll())
@@ -35,7 +35,7 @@ export class <%= upperCamelCase %>Controller {
   /**
    * <%= moduleNameCN %>分页列表
    */
-  @Permission('<%= moduleName %>.list')
+  @Permission('<%= permissionPrefix %>.list')
   @Get('list')
   async page(@Query() <%= lowerCamelCase %>PageDto: <%= upperCamelCase %>PageDto) {
     return CommonResult.success(await this.<%= lowerCamelCase %>Service.paginate(<%= lowerCamelCase %>PageDto))
@@ -45,7 +45,7 @@ export class <%= upperCamelCase %>Controller {
   /**
    *  <%= moduleNameCN %>树形结构
    */
-  @Permission('<%= moduleName %>.tree')
+  @Permission('<%= permissionPrefix %>.tree')
   @Get('tree')
   async findTree() {
     return CommonResult.success(await this.<%= lowerCamelCase %>Service.findTree())
@@ -55,7 +55,7 @@ export class <%= upperCamelCase %>Controller {
   /**
    * <%= moduleNameCN %>游标分页
    */
-  @Permission('<%= moduleName %>.cursor')
+  @Permission('<%= permissionPrefix %>.cursor')
   @Get('cursor')
   async cursor(@Query() cursorPageDto: CursorPageDto) {
     return CommonResult.success(await this.<%= lowerCamelCase %>Service.cursorPaginate(cursorPageDto))
@@ -64,7 +64,7 @@ export class <%= upperCamelCase %>Controller {
   /**
    * <%= moduleNameCN %>详情
    */
-  @Permission('<%= moduleName %>.detail')
+  @Permission('<%= permissionPrefix %>.detail')
   @Get('detail/:id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return CommonResult.success(await this.<%= lowerCamelCase %>Service.findOne(id))
@@ -73,7 +73,7 @@ export class <%= upperCamelCase %>Controller {
   /**
    * 更新<%= moduleNameCN %>
    */
-  @Permission('<%= moduleName %>.update')
+  @Permission('<%= permissionPrefix %>.update')
   @Patch('update/:id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() update<%= upperCamelCase %>Dto: Update<%= upperCamelCase %>Dto) {
     await this.<%= lowerCamelCase %>Service.update(id, update<%= upperCamelCase %>Dto)
@@ -83,7 +83,7 @@ export class <%= upperCamelCase %>Controller {
   /**
    * 删除<%= moduleNameCN %>
    */
-  @Permission('<%= moduleName %>.delete')
+  @Permission('<%= permissionPrefix %>.delete')
   @Delete('remove/:id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.<%= lowerCamelCase %>Service.remove(+id)
