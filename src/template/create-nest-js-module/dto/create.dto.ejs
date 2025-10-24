@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString } from 'class-validator'
 /**
  * 创建<%= moduleNameCN %>DTO
  */
-export class Create<%= CapitalizeModuleName %>Dto {
+export class Create<%= upperCamelCase %>Dto {
   @IsNotEmpty({ message: 'name不能为空' })
   @IsString({ message: 'name必须是字符串' })
   name: string

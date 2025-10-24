@@ -1,8 +1,8 @@
 import { Column, Entity } from 'typeorm'
 import { BaseEntity } from '@/libs/common/src/database/base.entity'
 
-@Entity('<%= moduleName %>')
-export class <%= CapitalizeModuleName %>Entity extends BaseEntity {
+@Entity('<%= snakeCase %>')
+export class <%= upperCamelCase %>Entity extends BaseEntity {
   @Column()
   name: string
 }

@@ -1,9 +1,9 @@
 import { PartialType } from '@nestjs/mapped-types'
-import { Create<%= CapitalizeModuleName %>Dto } from './create-<%= moduleName %>.dto'
+import { Create<%= upperCamelCase %>Dto } from './create-<%= moduleName %>.dto'
 
 /**
  * 更新<%= moduleNameCN %>DTO
  */
-export class Update<%= CapitalizeModuleName %>Dto extends PartialType(Create<%= CapitalizeModuleName %>Dto) {
+export class Update<%= upperCamelCase %>Dto extends PartialType(Create<%= upperCamelCase %>Dto) {
   
 }

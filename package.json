@@ -65,7 +65,8 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --fix",
     "test": "vscode-test",
-    "tag": "bumpp"
+    "tag": "bumpp",
+    "publish": "vsce publish"
   },
   "dependencies": {
     "copy-webpack-plugin": "^12.0.2",

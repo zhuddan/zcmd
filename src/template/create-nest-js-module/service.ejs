@@ -5,43 +5,43 @@ import { CursorPageResponseDto } from '@/libs/common/src/dto/cursor-page-respons
 import { CursorPageDto } from '@/libs/common/src/dto/cursor-page.dto.ts'
 import { PageResponseDto } from '@/libs/common/src/dto/page-response.dto'
 import { buildTree } from '@/libs/common/src/utils/buildTree'
-import { Create<%= CapitalizeModuleName %>Dto } from './dto/create-<%= moduleName %>.dto'
-import { <%= CapitalizeModuleName %>PageDto } from './dto/<%= moduleName %>-page.dto'
-import { Update<%= CapitalizeModuleName %>Dto } from './dto/update-<%= moduleName %>.dto'
-import { <%= CapitalizeModuleName %>Entity } from './entities/<%= moduleName %>.entity'
+import { Create<%= upperCamelCase %>Dto } from './dto/create-<%= moduleName %>.dto'
+import { <%= upperCamelCase %>PageDto } from './dto/<%= moduleName %>-page.dto'
+import { Update<%= upperCamelCase %>Dto } from './dto/update-<%= moduleName %>.dto'
+import { <%= upperCamelCase %>Entity } from './entities/<%= moduleName %>.entity'
 
 @Injectable()
-export class <%= CapitalizeModuleName %>Service {
+export class <%= upperCamelCase %>Service {
   constructor(
-    @InjectRepository(<%= CapitalizeModuleName %>Entity)
-    private readonly <%= moduleName %>Repo: Repository<<%= CapitalizeModuleName %>Entity>,
+    @InjectRepository(<%= upperCamelCase %>Entity)
+    private readonly <%= lowerCamelCase %>Repo: Repository<<%= upperCamelCase %>Entity>,
   ) {}
 
   /**
    * 创建<%= moduleNameCN %>
    */
-  create(create<%= CapitalizeModuleName %>Dto: Create<%= CapitalizeModuleName %>Dto) {
-    const <%= moduleName %> = this.<%= moduleName %>Repo.create(create<%= CapitalizeModuleName %>Dto)
-    return this.<%= moduleName %>Repo.save(<%= moduleName %>)
+  create(create<%= upperCamelCase %>Dto: Create<%= upperCamelCase %>Dto) {
+    const <%= lowerCamelCase %> = this.<%= lowerCamelCase %>Repo.create(create<%= upperCamelCase %>Dto)
+    return this.<%= lowerCamelCase %>Repo.save(<%= lowerCamelCase %>)
   }
 
   /**
    * 所有<%= moduleNameCN %>列表
    */
   async findAll() {
-    return await this.<%= moduleName %>Repo.find()
+    return await this.<%= lowerCamelCase %>Repo.find()
   }
 
   /**
    * 分页查询<%= moduleNameCN %>
    */
-  async paginate(dto: <%= CapitalizeModuleName %>PageDto) {
+  async paginate(dto: <%= upperCamelCase %>PageDto) {
     const { page = 1, pageSize = 5, sortBy = 'id', order = 'ASC', name } = dto
-    const where: FindOneOptions<<%= CapitalizeModuleName %>Entity>['where'] = {}
+    const where: FindOneOptions<<%= upperCamelCase %>Entity>['where'] = {}
     if (name) {
       where.name = Like(`%${name}%`) // 模糊搜索
     }
-    const [list, total] = await this.<%= moduleName %>Repo.findAndCount({
+    const [list, total] = await this.<%= lowerCamelCase %>Repo.findAndCount({
       where,
       skip: (page - 1) * pageSize,
       take: pageSize,
@@ -54,7 +54,7 @@ export class <%= CapitalizeModuleName %>Service {
    * 树形结构<%= moduleNameCN %>
    */
   async findTree() {
-    const all = await this.<%= moduleName %>Repo.find({ order: { sort: 'ASC' } })
+    const all = await this.<%= lowerCamelCase %>Repo.find({ order: { sort: 'ASC' } })
     return buildTree(all)
   }
 
@@ -64,7 +64,7 @@ export class <%= CapitalizeModuleName %>Service {
   async cursorPaginate(dto: CursorPageDto) {
     const { lastId, limit = 10 } = dto
     const where = lastId ? { id: MoreThan(lastId) } : {}
-    const list = await this.<%= moduleName %>Repo.find({
+    const list = await this.<%= lowerCamelCase %>Repo.find({
       where,
       take: limit,
       order: { id: 'ASC' },
@@ -76,20 +76,20 @@ export class <%= CapitalizeModuleName %>Service {
    * 根据<%= moduleNameCN %>ID查询<%= moduleNameCN %>
    */
   async findOne(id: number) {
-    return await this.<%= moduleName %>Repo.findOneBy({ id })
+    return await this.<%= lowerCamelCase %>Repo.findOneBy({ id })
   }
 
   /**
    * 更新<%= moduleNameCN %>信息
    */
-  update(id: number, update<%= CapitalizeModuleName %>Dto: Update<%= CapitalizeModuleName %>Dto) {
-    return this.<%= moduleName %>Repo.update(id.toString(), update<%= CapitalizeModuleName %>Dto)
+  update(id: number, update<%= upperCamelCase %>Dto: Update<%= upperCamelCase %>Dto) {
+    return this.<%= lowerCamelCase %>Repo.update(id.toString(), update<%= upperCamelCase %>Dto)
   }
 
   /**
    * 删除<%= moduleNameCN %>
    */
   async remove(id: number) {
-    await this.<%= moduleName %>Repo.delete(id)
+    await this.<%= lowerCamelCase %>Repo.delete(id)
   }
 }

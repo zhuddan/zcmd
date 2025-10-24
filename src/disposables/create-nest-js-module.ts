@@ -3,11 +3,6 @@ import path from 'node:path'
 import * as ejs from 'ejs'
 import _ from 'lodash'
 import * as vscode from 'vscode'
-// import { createTempFile, openFileAndSelectWord } from '../utils'
-// function createNestJsModule(moduleName: string) {
-//   const CapitalizeModuleName = _.capitalize(moduleName)
-//   console.log(CapitalizeModuleName)
-// }
 
 function templatePath(name: string) {
   return fs.readFileSync(
@@ -45,8 +40,9 @@ export default function createNestJsModuleDisposable() {
     }
 
     let moduleName = await vscode.window.showInputBox({
-      prompt: 'module名称',
+      prompt: 'module名称(英文)',
       value: 'product',
+      placeHolder: '例如: product, user',
     })
 
     if (!moduleName) {
@@ -56,14 +52,26 @@ export default function createNestJsModuleDisposable() {
     moduleName = moduleName.toLowerCase()
 
     const moduleNameCN = await vscode.window.showInputBox({
-      prompt: 'module描述',
+      prompt: '业务名称(中文)',
       value: '商品',
+      placeHolder: '例如: 商品, 用户',
     })
 
     const data = {
       moduleName,
-      CapitalizeModuleName: _.capitalize(moduleName),
       moduleNameCN,
+      /**
+       * 小驼峰
+       */
+      lowerCamelCase: _.camelCase(moduleName),
+      /**
+       * 大驼峰
+       */
+      upperCamelCase: _.upperFirst(_.camelCase(moduleName)),
+      /**
+       * 下划线
+       */
+      snakeCase: _.snakeCase(moduleName),
     }
 
     function createFile(filePath: string, content: string) {
